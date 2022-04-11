@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flower
+  labels:
+    app: flower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flower
+  template:
+    metadata:
+      labels:
+        app: flower
+    spec:
+      containers:
+      - name: flower
+        image: mher/flower
+        #command: ["flower"]
+        command: ['celery','--broker=amqp://guest:guest@157.230.201.187:5672', "flower"]
+        args:
+          #- flower
+         # - --broker=amqp://guest:guest@157.230.201.187:5672
+         # - --port=8888
+        #env:
+        #  - CELERY_BROKER_URL=amqp://guest:guest@157.230.201.187:5672
+        #  - FLOWER_PORT=8888
+        ports:
+        - containerPort: 8888
